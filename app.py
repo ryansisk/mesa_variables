@@ -35,37 +35,8 @@ if search_term:
         filtered_df['Description'].str.contains(search_term, case=False)
     ]
 
-# Custom CSS to set the width of the dataframe and enable text wrapping
-st.markdown("""
-<style>
-    .stDataFrame {
-        width: 100%;
-    }
-    .dataframe {
-        font-size: 12px;
-    }
-    .dataframe td {
-        white-space: normal;
-        text-align: left !important;
-    }
-    .dataframe th {
-        text-align: left !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# Display the filtered dataframe with custom column widths
-st.dataframe(
-    filtered_df.reset_index(drop=True),
-    column_config={
-        "Variable Name": st.column_config.Column(width=150),
-        "Description": st.column_config.Column(width=300),
-        "Source File": st.column_config.Column(width=100),
-        "Code=Value": st.column_config.Column(width=200),
-    },
-    height=500,  # Set the height of the dataframe
-    use_container_width=True  # Use the full width of the container
-)
+# Display the filtered dataframe
+st.dataframe(filtered_df, use_container_width=True)
 
 # Display statistics
 st.sidebar.write(f"Total variables: {len(filtered_df)}")
