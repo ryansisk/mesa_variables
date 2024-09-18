@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 from pathlib import Path
-from awesome_table import AwesomeTable
-from awesome_table.column import (Column, ColumnDType)
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, DataReturnMode
 
 # Load the data
 @st.cache_data
