@@ -41,7 +41,7 @@ filtered_df = df[df['Source File'].isin(selected_exams)]
 # Display the filtered dataframe
 #st.dataframe(filtered_df, use_container_width=True)
 
-AwesomeTable(filtered_df, columns=[
+AwesomeTable(pd.filtered_df, columns=[
     Column(name='Variable Name', label='Variable ID'),
     Column(name='Description', label='Variable Definition'),
     Column(name='Type', label='Data Type'),
