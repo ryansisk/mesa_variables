@@ -5,7 +5,7 @@ import pandas as pd
 @st.cache_data
 def load_data():
     # Replace this with your actual data loading method
-    df = pd.read_csv('your_data.csv')
+    df = pd.read_csv('data/exam_data.csv')
     return df
 
 df = load_data()
