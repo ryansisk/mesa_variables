@@ -10,6 +10,9 @@ def load_data():
     DATA_FILENAME = Path(__file__).parent/'data/exam_data.csv'
     df = pd.read_csv(DATA_FILENAME)
 
+    if df.columns[0] == 'Unnamed: 0':
+        df = df.drop(columns=['Unnamed: 0'])
+
     return df
 
 df = load_data()
