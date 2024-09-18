@@ -4,8 +4,11 @@ import pandas as pd
 # Load the data
 @st.cache_data
 def load_data():
-    # Replace this with your actual data loading method
-    df = pd.read_csv('data/exam_data.csv')
+
+    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
+    DATA_FILENAME = Path(__file__).parent/'data/exam_data.csv'
+    df = pd.read_csv(DATA_FILENAME)
+
     return df
 
 df = load_data()
