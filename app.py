@@ -17,7 +17,18 @@ def load_data():
 
 df = load_data()
 
-st.title('Variable Name Description Table')
+# Custom CSS to adjust table width
+st.markdown(
+    """
+    <style>
+    .dataframe-container {
+        width: 100% !important;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+st.title('MESA Variables from Main Exams')
 
 # Sidebar for exam selection
 exams = df['Source File'].unique()
@@ -35,7 +46,7 @@ if search_term:
         filtered_df['Description'].str.contains(search_term, case=False)
     ]
 
-# Display the filtered dataframe
+# Display the filtered dataframe in a container with a custom class
 st.dataframe(filtered_df, use_container_width=True)
 
 # Display statistics
