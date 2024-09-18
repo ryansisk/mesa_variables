@@ -19,8 +19,7 @@ def load_data():
 
 df = load_data()
 
-st.set_page_config(page_title='MESA Variable Name Description Table', layout='wide')
-#st.title('')
+st.title('MESA Variable Name Description Table')
 
 # Sidebar for exam selection
 exams = df['Source File'].unique()
@@ -30,25 +29,47 @@ selected_exams = st.sidebar.multiselect('Select Exams', exams, default=exams)
 filtered_df = df[df['Source File'].isin(selected_exams)]
 
 # Search functionality
-#search_term = st.text_input('Search for a variable name or description:')
+search_term = st.text_input('Search for a variable name or description:')
 
-#if search_term:
-#    filtered_df = filtered_df[
-#        filtered_df['Variable Name'].str.contains(search_term, case=False) |
-#        filtered_df['Description'].str.contains(search_term, case=False)
-#    ]
+if search_term:
+    filtered_df = filtered_df[
+        filtered_df['Variable Name'].str.contains(search_term, case=False) |
+        filtered_df['Description'].str.contains(search_term, case=False)
+    ]
 
-# Display the filtered dataframe
-#st.dataframe(filtered_df, use_container_width=True)
+# Configure AgGrid options
+gb = GridOptionsBuilder.from_dataframe(filtered_df)
+gb.configure_default_column(
+    resizable=True, 
+    filterable=True, 
+    sorteable=True, 
+    editable=False
+)
+gb.configure_column("Variable Name", width=150)
+gb.configure_column("Description", width=300)
+gb.configure_column("Source File", width=100)
+gb.configure_column("Code=Value", width=200, wrapText=True, autoHeight=True)
+gb.configure_selection('single')
+grid_options = gb.build()
 
-AwesomeTable(pd.filtered_df, columns=[
-    Column(name='Variable Name', label='Variable ID'),
-    Column(name='Description', label='Variable Definition'),
-    Column(name='Type', label='Data Type'),
-    Column(name='Code=Value', label='Code Definitions'),
-    Column(name='Source file', label='Exam'),
-], show_search=True)
+# Display the AgGrid
+grid_response = AgGrid(
+    filtered_df,
+    gridOptions=grid_options,
+    height=500,
+    width='100%',
+    data_return_mode=DataReturnMode.FILTERED_AND_SORTED,
+    update_mode=GridUpdateMode.SELECTION_CHANGED,
+    fit_columns_on_grid_load=False,
+    allow_unsafe_jscode=True
+)
 
 # Display statistics
 st.sidebar.write(f"Total variables: {len(filtered_df)}")
 st.sidebar.write(f"Exams represented: {', '.join(filtered_df['Source File'].unique())}")
+
+# Display selected row (if any)
+selected_rows = grid_response['selected_rows']
+if selected_rows:
+    st.write("Selected row:")
+    st.json(selected_rows[0])

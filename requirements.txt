@@ -1,3 +1,3 @@
 streamlit
 pandas
-streamlit-awesome_table
+streamlit-aggrid
